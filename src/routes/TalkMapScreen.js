@@ -5,6 +5,8 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'dva/mobile';
+import { Button, WingBlank, InputItem, WhiteSpace, List } from 'antd-mobile';
+import { Actions } from 'react-native-router-flux';
 
 class TalkMapScreen extends Component {
   // state = {
@@ -32,20 +34,31 @@ class TalkMapScreen extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  render(dispatch) {
+  render() {
+    const { latitude, longitude } = this.props.location;
+    const { message, dispatch, allMessages } = this.props;
+    console.log(allMessages);
     return (
       <View>
         <Text>this is talkMapScreen Main page.</Text>
         <Text>
-          <Text style={styles.title}>Initial position: </Text>
-          latitude is {this.props.location.latitude}
-          longitude is {this.props.location.longitude}
+          <Text style={styles.title}>Position now: </Text>
+          latitude is {latitude}
+          longitude is {longitude}
         </Text>
-        <Text>
-          <Text style={styles.title}>Current position: </Text>
-          latitude is {this.props.location.latitude}
-          longitude is {this.props.location.longitude}
-        </Text>
+        <List>
+        <InputItem
+            clear
+            value={message}
+            type="text"
+            onChange={(value) => dispatch({ type: 'Messages/messageText', payload: value })}
+            placeholder="Type here~!"
+            labelNumber={7}
+            error
+            onErrorPress={() => message ? dispatch({ type: 'Messages/addPublicMessages', payload: message }) : null}
+          >Message
+          </InputItem>
+        </List>
       </View>
     );
   }
@@ -57,11 +70,13 @@ const styles = {
   },
 };
 
-const mapStateToProps = ({ Location }) => {
+const mapStateToProps = ({ Location, Messages }) => {
   const { location } = Location;
-
+  const { message, allMessages } = Messages;
   return {
     location,
+    allMessages,
+    message,
   };
 }
 export default connect(mapStateToProps)(TalkMapScreen);

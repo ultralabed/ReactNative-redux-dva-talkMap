@@ -4,6 +4,8 @@ import firebase from 'firebase';
 import SplashScreen from './routes/SplashScreen';
 import LoginForm from './routes/LoginForm';
 import TalkMapScreen from './routes/TalkMapScreen';
+import PublicMessageScreen from './routes/PublicMessageScreen';
+import PrivateMessageScreen from './routes/PrivateMessageScreen';
 import { connect } from 'dva/mobile';
 
 class RouterComponent extends Component {
@@ -23,7 +25,17 @@ class RouterComponent extends Component {
             title="Talk Map"
             onLeft={() => this.props.dispatch({ type: 'auth/logoutUser' })}
             leftTitle="Logout"
+            onRight={() => Actions.publicMessages()}
+            rightTitle="Chat all"
             initial/>
+          <Scene
+            key="publicMessages"
+            component={PublicMessageScreen}
+            title="Public Chat"/>
+          <Scene
+            key="privateMessages"
+            component={PrivateMessageScreen}
+            title="Private Chat"/>
         </Scene>
       </Router>
     );

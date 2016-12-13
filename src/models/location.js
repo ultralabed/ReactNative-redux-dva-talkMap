@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
+import { updateLocation } from '../services/firebase';
 
 export default {
   namespace: 'Location',
@@ -11,6 +12,7 @@ export default {
   effects: {
     *updateUserLocation({ payload }, { call, put }) {
       const { latitude, longitude } = payload;
+      yield call(updateLocation, { latitude, longitude });
       yield put({ type: 'updateLocation', payload: { latitude, longitude } });
     }
   },
