@@ -37,7 +37,7 @@ class TalkMapScreen extends Component {
   render() {
     const { latitude, longitude } = this.props.location;
     const { message, dispatch, allMessages } = this.props;
-    console.log(allMessages);
+    // console.log(allMessages);
     return (
       <View>
         <Text>this is talkMapScreen Main page.</Text>

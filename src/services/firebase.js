@@ -5,7 +5,7 @@ export function updateLocation({ latitude, longitude }) {
   const { currentUser } = firebase.auth();
   let timeNow = new moment().format('x');
   firebase.database().ref(`/talkMapUsers/${currentUser.uid}`)
-    .set({ latitude, longitude, latestLocation: timeNow , email: currentUser.email });
+    .update({ latitude, longitude, latestLocation: timeNow , email: currentUser.email });
 }
 
 export function createMessage({ message }) {
@@ -13,4 +13,11 @@ export function createMessage({ message }) {
   let timeNow = new moment().format('x');
   firebase.database().ref(`/messages`)
     .push({ message, userId: currentUser.uid, email: currentUser.email, to: 'all', time: timeNow });
+
+}
+
+export function updateUserLatestMessage({ message }) {
+  const { currentUser } = firebase.auth();
+  firebase.database().ref(`/talkMapUsers/${currentUser.uid}`)
+    .update({ message: message })
 }

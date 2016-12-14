@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
-import { createMessage } from '../services/firebase';
+import { createMessage, updateUserLatestMessage } from '../services/firebase';
 
 export default {
   namespace: 'Messages',
@@ -27,15 +27,17 @@ export default {
   effects: {
     *addPublicMessages({ payload }, { call, put }) {
       yield call(createMessage, { message: payload });
+      yield call(updateUserLatestMessage, { message: payload });
       yield put({ type: 'messageText', payload: '' });
     }
   },
   reducers: {
     updateAllMessages(state, { payload }) {
-      console.log('messages', payload)
+
       return { ...state, allMessages: payload };
     },
     messageText(state, { payload }) {
+
       return { ...state, message: payload };
     }
   },
