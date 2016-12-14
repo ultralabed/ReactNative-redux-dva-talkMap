@@ -37,8 +37,8 @@ class TalkMapScreen extends Component {
   }
 
   renderMarkerCallout(data) {
-    const { email } = this.props.user;
-    let time = moment.unix(data.latestLocation / 1000).fromNow();
+    const { email, uid } = this.props.user;
+    let time = data.latestMessage ? moment.unix(data.latestMessage / 1000).fromNow() : null;
 
     return (
       <View >
@@ -55,7 +55,7 @@ class TalkMapScreen extends Component {
               null:
               <Button
                 style={{width: 50, left: 150}}
-                onClick={() => Actions.privateMessages()}
+                onClick={() => this.props.dispatch({ type: 'Messages/checkConversationMap', payload: { from: uid , to: data.key } })}
                 size="small"
                 type="primary">
                   Chat

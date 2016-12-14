@@ -31,7 +31,6 @@ class SplashScreen extends Component {
 
 const mapStateToProps = ({ auth }) => {
   const { autoLogin, user } = auth;
-  console.log(auth);
   return {
     autoLogin,
     user,

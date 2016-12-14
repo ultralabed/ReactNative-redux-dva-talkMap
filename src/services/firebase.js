@@ -18,6 +18,18 @@ export function createMessage({ message }) {
 
 export function updateUserLatestMessage({ message }) {
   const { currentUser } = firebase.auth();
+  let timeNow = new moment().format('x');
   firebase.database().ref(`/talkMapUsers/${currentUser.uid}`)
-    .update({ message: message })
+    .update({ message: message, latestMessage: timeNow })
+}
+
+export function createConversationMap({ from, to }) {
+  const { currentUser } = firebase.auth();
+  return firebase.database().ref(`/conversationMap`)
+    .push({ user1: from, user2: to })
+}
+
+export function createPrivateMessage({ message, conversationKey, from, to, time }) {
+  firebase.database().ref(`/conversations/${conversationKey}`)
+    .push({ message, from, to, time })
 }
