@@ -1,18 +1,20 @@
 import _ from 'lodash';
+import moment from 'moment';
+import MapView from 'react-native-maps';
 import React, { Component } from 'react';
 import {
   Text,
   View,
+  Dimensions,
 } from 'react-native';
 import { connect } from 'dva/mobile';
 import { Button, WingBlank, InputItem, WhiteSpace, List } from 'antd-mobile';
 import { Actions } from 'react-native-router-flux';
 
 class TalkMapScreen extends Component {
-  // state = {
-  //   initialPosition: 'unknown',
-  //   lastPosition: 'unknown',
-  // };
+  state = {
+    region: { },
+  };
 
   watchID: ?number = null;
   componentDidMount() {
@@ -34,26 +36,71 @@ class TalkMapScreen extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
+  renderMarkerCallout(data) {
+    const { email } = this.props.user;
+    let time = moment.unix(data.latestLocation / 1000).fromNow();
+
+    return (
+      <View >
+        <View>
+          <Text  style={{fontSize: 20, fontWeight: 'bold'}}>
+            {
+              email === data.email ?
+              'Me'
+              :
+              _.capitalize(data.email.split('@')[0])
+            }
+            {
+              email === data.email ?
+              null:
+              <Button
+                style={{width: 50, left: 150}}
+                onClick={() => Actions.privateMessages()}
+                size="small"
+                type="primary">
+                  Chat
+              </Button>
+            }
+          </Text>
+        </View>
+        <Text>{data.message}</Text>
+        <Text style={{left: 90}}>{time}</Text>
+      </View>
+    )
+  }
+
   render() {
-    const { latitude, longitude } = this.props.location;
-    const { message, dispatch, allMessages } = this.props;
-    // console.log(allMessages);
+    const { region, message, dispatch, allMessages, markers } = this.props;
     return (
       <View>
-        <Text>this is talkMapScreen Main page.</Text>
-        <Text>
-          <Text style={styles.title}>Position now: </Text>
-          latitude is {latitude}
-          longitude is {longitude}
-        </Text>
+        <MapView
+          style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height - 110}}
+          region={region}
+          >
+          { markers.map(data => {
+            const imagekey = data.email.length + 7;
+            const imageUri = `https://avatars3.githubusercontent.com/u/${imagekey}?v=3&s=50`
+            return (
+              <MapView.Marker
+                key={data.key}
+                coordinate={{ latitude: data.latitude, longitude: data.longitude }}
+                image={{ uri: imageUri}}
+              >
+                <MapView.Callout style={{width: 200}}>
+                  {this.renderMarkerCallout(data)}
+                </MapView.Callout>
+              </MapView.Marker>
+            )
+          })}
+        </MapView>
         <List>
-        <InputItem
+          <InputItem
             clear
             value={message}
             type="text"
             onChange={(value) => dispatch({ type: 'Messages/messageText', payload: value })}
-            placeholder="Type here~!"
-            labelNumber={7}
+            placeholder="Hello there!!"
+            labelNumber={5}
             error
             onErrorPress={() => message ? dispatch({ type: 'Messages/addPublicMessages', payload: message }) : null}
           >Message
@@ -64,17 +111,20 @@ class TalkMapScreen extends Component {
   }
 };
 
-const styles = {
-  title: {
-    fontWeight: '500',
-  },
-};
-
-const mapStateToProps = ({ Location, Messages }) => {
-  const { location } = Location;
+const mapStateToProps = ({ Location, Messages, auth }) => {
+  const { location, talkMapUsers } = Location;
+  const { user } = auth;
+  const region = { latitude: Number(location.latitude),
+                    longitude: Number(location.longitude),
+                    latitudeDelta: 0.04,
+                    longitudeDelta: 0.04,
+                 };
+  var markers = _.values(_.mapValues(talkMapUsers, function(value, key) { value.key = key; return value; }));
   const { message, allMessages } = Messages;
   return {
-    location,
+    user,
+    markers,
+    region,
     allMessages,
     message,
   };

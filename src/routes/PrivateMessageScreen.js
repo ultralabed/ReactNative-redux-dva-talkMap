@@ -11,7 +11,7 @@ class PrivateMessageScreen extends Component {
     return (
       <View>
         <Text>
-          public messages
+          private messages
         </Text>
       </View>
     );

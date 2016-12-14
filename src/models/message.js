@@ -22,23 +22,23 @@ export default {
           });
         }
       });
-    }
+    },
   },
   effects: {
     *addPublicMessages({ payload }, { call, put }) {
       yield call(createMessage, { message: payload });
       yield call(updateUserLatestMessage, { message: payload });
       yield put({ type: 'messageText', payload: '' });
-    }
+    },
   },
   reducers: {
     updateAllMessages(state, { payload }) {
-
+      console.log(payload)
       return { ...state, allMessages: payload };
     },
     messageText(state, { payload }) {
 
       return { ...state, message: payload };
-    }
+    },
   },
 }

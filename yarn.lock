@@ -4412,9 +4412,9 @@ react-native-invertible-scroll-view@^1.0.0:
     react-clone-referenced-element "^1.0.1"
     react-native-scrollable-mixin "^1.0.1"
 
-react-native-maps@^0.12.1:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.12.1.tgz#d8b3e0062cfa3328e21bd63474382312ca089da0"
+react-native-maps@^0.12.2:
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.12.2.tgz#f13603ab908acee6e4afe8978b65e6138c30f50b"
 
 react-native-menu@~0.20.1:
   version "0.20.2"
