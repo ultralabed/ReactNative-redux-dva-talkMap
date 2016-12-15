@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'dva/mobile';
-import { Button, WingBlank, InputItem, WhiteSpace, List, ListView } from 'antd-mobile';
+import { Button, WingBlank, InputItem, WhiteSpace, List, ListView, Flex } from 'antd-mobile';
 
 class PrivateMessageScreen extends Component {
   componentWillMount() {
@@ -49,16 +49,29 @@ class PrivateMessageScreen extends Component {
 
   renderRow(data) {
     const { talkMapUsers, user, to } = this.props;
-
+    const { messageMe, messageOther } = styles;
     return (
-      <InputItem
-        clear
-        value={data.message}
-        type="text"
-        labelNumber={7}
-        editable={false}
-        >{data.from === user.uid ? 'Me' : _.capitalize(talkMapUsers[to].email.split('@')[0])}
-      </InputItem>
+      data.from === user.uid ?
+      (
+        <View>
+          <Flex justify="end" wrap="wrap">
+            <Text style={messageMe}>{data.message}</Text>
+          </Flex>
+          <WhiteSpace />
+        </View>
+      )
+      :
+      (
+        <View>
+          <Flex justify="start">
+            <View>
+              <Text style={messageOther}>{ _.capitalize(talkMapUsers[to].email.split('@')[0]) } : {data.message}</Text>
+            </View>
+            <WhiteSpace />
+          </Flex>
+          <WhiteSpace />
+        </View>
+      )
     );
   }
 
@@ -67,7 +80,7 @@ class PrivateMessageScreen extends Component {
 
     return (
       <View>
-        <ListView 
+        <ListView
           enableEmptySections
           dataSource={this.dataSource}
           renderRow={this.renderRow.bind(this)}
@@ -78,17 +91,40 @@ class PrivateMessageScreen extends Component {
             value={message}
             type="text"
             onChange={(value) => dispatch({ type: 'Messages/messageText', payload: value })}
-            placeholder="Type here~!"
+            placeholder="Send message here~!"
             labelNumber={7}
             error
             onErrorPress={() => message ? dispatch({ type: 'Messages/addPrivateMessages', payload: { message, conversationKey, from, to } }) : null}
-            >Message
+            >
           </InputItem>
         </List>
       </View>
     );
   }
 };
+
+const styles = {
+  messageMe: {
+    marginLeft: 8,
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderRadius: 10,
+    borderWidth : 2,
+    borderColor: '#4080ff',
+    backgroundColor: '#4080ff',
+    fontSize: 20,
+  },
+  messageOther: {
+    marginRight: 8,
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderRadius: 10,
+    borderWidth : 2,
+    borderColor: '#f1f0f0',
+    backgroundColor: '#f1f0f0',
+    fontSize: 20,
+  },
+}
 
 const mapStateToProps = ({ Messages, Location, auth }) => {
   const { conversationKey, message, from, to } = Messages;

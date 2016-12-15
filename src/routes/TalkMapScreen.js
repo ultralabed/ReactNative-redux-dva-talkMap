@@ -86,7 +86,8 @@ class TalkMapScreen extends Component {
                 coordinate={{ latitude: data.latitude, longitude: data.longitude }}
                 image={{ uri: imageUri}}
               >
-                <MapView.Callout style={{width: 200}}>
+                <MapView.Callout
+                  style={{width: 200}}>
                   {this.renderMarkerCallout(data)}
                 </MapView.Callout>
               </MapView.Marker>
@@ -99,11 +100,11 @@ class TalkMapScreen extends Component {
             value={message}
             type="text"
             onChange={(value) => dispatch({ type: 'Messages/messageText', payload: value })}
-            placeholder="Hello there!!"
+            placeholder="Send message here~!"
             labelNumber={5}
             error
             onErrorPress={() => message ? dispatch({ type: 'Messages/addPublicMessages', payload: message }) : null}
-          >Message
+          >
           </InputItem>
         </List>
       </View>
