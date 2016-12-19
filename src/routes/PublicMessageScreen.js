@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Image,
+  Dimensions,
 } from 'react-native';
 import { connect } from 'dva/mobile';
 import { InputItem, WhiteSpace, List, ListView, Flex } from 'antd-mobile';
@@ -63,9 +64,10 @@ class PublicMessageScreen extends Component {
   }
 
   render() {
+    const { listView } = styles;
     const { message, dispatch } = this.props;
     return (
-      <View>
+      <View style={listView}>
         <ListView 
           renderScrollComponent={this.renderInvertibleScrollView}
           enableEmptySections
@@ -90,6 +92,9 @@ class PublicMessageScreen extends Component {
 };
 
 const styles = {
+  listView: {
+     height: Dimensions.get('window').height - 66,
+  },
   messageMe: {
     marginLeft: 8,
     marginRight: 8,

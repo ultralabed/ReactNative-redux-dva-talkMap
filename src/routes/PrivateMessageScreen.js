@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
+  Dimensions,
 } from 'react-native';
 import { connect } from 'dva/mobile';
 import { InputItem, WhiteSpace, List, ListView, Flex } from 'antd-mobile';
@@ -76,10 +77,11 @@ class PrivateMessageScreen extends Component {
   }
 
   render() {
+    const { listView } = styles;
     const { message, dispatch, conversationKey, from, to } = this.props;
 
     return (
-      <View>
+      <View style={listView}>
         <ListView
           enableEmptySections
           dataSource={this.dataSource}
@@ -104,6 +106,9 @@ class PrivateMessageScreen extends Component {
 };
 
 const styles = {
+  listView: {
+     height: Dimensions.get('window').height - 66,
+  },
   messageMe: {
     marginRight: 8,
     marginLeft: 8,
