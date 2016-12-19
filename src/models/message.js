@@ -20,7 +20,7 @@ export default {
       firebase.auth().onAuthStateChanged(function(currentUser) {
         if (currentUser) {
 
-          firebase.database().ref(`/messages`)
+          firebase.database().ref(`/conversations/public`)
           .on('value', (snapshot) => {
             const val = snapshot.val();
             if (val) {

@@ -11,7 +11,7 @@ export function updateLocation({ latitude, longitude }) {
 export function createMessage({ message }) {
   const { currentUser } = firebase.auth();
   let timeNow = new moment().format('x');
-  firebase.database().ref(`/messages`)
+  firebase.database().ref(`/conversations/public`)
     .push({ message, userId: currentUser.uid, email: currentUser.email, to: 'all', time: timeNow });
 
 }
