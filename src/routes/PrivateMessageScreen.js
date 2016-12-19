@@ -105,21 +105,25 @@ class PrivateMessageScreen extends Component {
 
 const styles = {
   messageMe: {
+    marginRight: 8,
     marginLeft: 8,
     paddingLeft: 5,
     paddingRight: 5,
     borderRadius: 10,
     borderWidth : 2,
+    overflow: 'hidden',
     borderColor: '#4080ff',
     backgroundColor: '#4080ff',
     fontSize: 20,
   },
   messageOther: {
     marginRight: 8,
+    marginLeft: 8,
     paddingLeft: 5,
     paddingRight: 5,
     borderRadius: 10,
     borderWidth : 2,
+    overflow: 'hidden',
     borderColor: '#f1f0f0',
     backgroundColor: '#f1f0f0',
     fontSize: 20,

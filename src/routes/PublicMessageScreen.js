@@ -47,9 +47,7 @@ class PublicMessageScreen extends Component {
       (
         <View>
           <Flex justify="start">
-            <View>
-              <Text style={messageOther}>{ _.capitalize(data.email.split('@')[0]) } : {data.message}</Text>
-            </View>
+            <Text style={messageOther}>{ _.capitalize(data.email.split('@')[0]) } : {data.message}</Text>
             <WhiteSpace />
           </Flex>
           <WhiteSpace />
@@ -94,20 +92,24 @@ class PublicMessageScreen extends Component {
 const styles = {
   messageMe: {
     marginLeft: 8,
+    marginRight: 8,
     paddingLeft: 5,
     paddingRight: 5,
-    borderRadius: 10,
     borderWidth : 2,
+    borderRadius: 10,
+    overflow: 'hidden',
     borderColor: '#4080ff',
     backgroundColor: '#4080ff',
     fontSize: 20,
   },
   messageOther: {
+    marginLeft: 8,
     marginRight: 8,
     paddingLeft: 5,
     paddingRight: 5,
     borderRadius: 10,
     borderWidth : 2,
+    overflow: 'hidden',
     borderColor: '#f1f0f0',
     backgroundColor: '#f1f0f0',
     fontSize: 20,
