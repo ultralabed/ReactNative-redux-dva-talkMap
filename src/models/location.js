@@ -5,7 +5,7 @@ import { updateLocation } from '../services/firebase';
 export default {
   namespace: 'Location',
   state: {
-    location: { latitude: '', longitude: '' },
+    location: { latitude: '', longitude: '', latitudeDelta: '0.03', longitudeDelta: '0.03' },
     talkMapUsers: { },
   },
   subscriptions: {
@@ -41,9 +41,14 @@ export default {
   },
   reducers: {
     updateLocation(state, { payload }) {
-      const { latitude, longitude } = payload;
+      const { latitude, longitude, latitudeDelta, longitudeDelta } = payload;
 
-      return { ...state, location: { latitude, longitude } };
+      return { ...state, location: { ...state.location, latitude, longitude } };
+    },
+    updateDelta(state, { payload }) {
+      const { latitudeDelta, longitudeDelta } = payload;
+
+      return { ...state, location: { ...state.location, latitudeDelta, longitudeDelta } };
     },
     fetchAllUserLocations(state, { payload }) {
       return { ...state, talkMapUsers: payload };

@@ -87,6 +87,11 @@ class TalkMapScreen extends Component {
         <MapView
           style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height - 107}}
           region={region}
+          onRegionChangeComplete={(region) => {
+            const { latitude, longitude, latitudeDelta, longitudeDelta } = region;
+            this.props.dispatch({ type: 'Location/updateDelta', payload: { latitude, longitude, latitudeDelta, longitudeDelta }});
+            }
+          }
           >
           { markers.map(data => {
             const imagekey = data.email.length + 7;
@@ -145,8 +150,8 @@ const mapStateToProps = ({ Location, Messages, auth }) => {
   const { user } = auth;
   const region = { latitude: Number(location.latitude),
                     longitude: Number(location.longitude),
-                    latitudeDelta: 0.03,
-                    longitudeDelta: 0.03,
+                    latitudeDelta: Number(location.latitudeDelta) || 0.03,
+                    longitudeDelta: Number(location.longitudeDelta) || 0.03,
                  };
   var markers = _.values(_.mapValues(talkMapUsers, function(value, key) { value.key = key; return value; }));
   const { message, allMessages } = Messages;
