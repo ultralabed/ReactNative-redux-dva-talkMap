@@ -44,7 +44,7 @@ class TalkMapScreen extends Component {
     let time = data.latestMessage ? moment.unix(data.latestMessage / 1000).fromNow() : null;
 
     return (
-      <View >
+      <View style={{flex: 1}}>
         <View>
           <Text  style={{fontSize: 20, fontWeight: 'bold'}}>
             {
