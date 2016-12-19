@@ -6,6 +6,8 @@ import {
   Text,
   View,
   Dimensions,
+  Image,
+  TouchableHighlight,
 } from 'react-native';
 import { connect } from 'dva/mobile';
 import { Button, InputItem, List } from 'antd-mobile';
@@ -77,6 +79,7 @@ class TalkMapScreen extends Component {
   }
 
   render() {
+    const { input, send } = styles;
     const { region, message, dispatch, allMessages, markers } = this.props;
     return (
       <View>
@@ -101,23 +104,37 @@ class TalkMapScreen extends Component {
             )
           })}
         </MapView>
-        <List>
+        <View style={{flexDirection: 'row'}}>
           <InputItem
             clear
             value={message}
             type="text"
+            style={input}
             onChange={(value) => dispatch({ type: 'Messages/messageText', payload: value })}
             placeholder="Send message here~!"
-            labelNumber={5}
-            error
-            onErrorPress={() => message ? dispatch({ type: 'Messages/addPublicMessages', payload: message }) : null}
-          >
+            >
           </InputItem>
-        </List>
+          <TouchableHighlight onPress={() => message ? dispatch({ type: 'Messages/addPublicMessages', payload: message }) : null}>
+            <Image style={send} source={require('../assets/send.jpg')}></Image>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
 };
+
+const styles = {
+  input: {
+    height: 40,
+    width: Dimensions.get('window').width - 60,
+  },
+  send: {
+    borderColor: '#fff',
+    height: 40,
+    width: 40,
+    resizeMode : 'contain',
+  },
+}
 
 const mapStateToProps = ({ Location, Messages, auth }) => {
   const { location, talkMapUsers } = Location;

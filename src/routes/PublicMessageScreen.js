@@ -6,6 +6,7 @@ import {
   View,
   Image,
   Dimensions,
+  TouchableHighlight,
 } from 'react-native';
 import { connect } from 'dva/mobile';
 import { InputItem, WhiteSpace, List, ListView, Flex } from 'antd-mobile';
@@ -64,7 +65,7 @@ class PublicMessageScreen extends Component {
   }
 
   render() {
-    const { listView } = styles;
+    const { listView, input, send } = styles;
     const { message, dispatch } = this.props;
     return (
       <View style={listView}>
@@ -74,18 +75,20 @@ class PublicMessageScreen extends Component {
           dataSource={this.dataSource}
           renderRow={this.renderRow.bind(this)}
         />
-        <List>
+        <View style={{flexDirection: 'row'}}>
           <InputItem
             clear
             value={message}
             type="text"
+            style={input}
             onChange={(value) => dispatch({ type: 'Messages/messageText', payload: value })}
             placeholder="Send message here~!"
-            error
-            onErrorPress={() => message ? dispatch({ type: 'Messages/addPublicMessages', payload: message }) : null}
             >
           </InputItem>
-        </List>
+          <TouchableHighlight onPress={() => message ? dispatch({ type: 'Messages/addPublicMessages', payload: message }) : null}>
+            <Image style={send} source={require('../assets/send.jpg')}></Image>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
@@ -94,6 +97,16 @@ class PublicMessageScreen extends Component {
 const styles = {
   listView: {
      height: Dimensions.get('window').height - 66,
+  },
+  input: {
+    height: 40,
+    width: Dimensions.get('window').width - 60,
+  },
+  send: {
+    borderColor: '#fff',
+    height: 40,
+    width: 40,
+    resizeMode : 'contain',
   },
   messageMe: {
     marginLeft: 8,

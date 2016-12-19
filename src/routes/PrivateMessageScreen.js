@@ -6,9 +6,11 @@ import {
   Text,
   View,
   Dimensions,
+  Image,
+  TouchableHighlight,
 } from 'react-native';
 import { connect } from 'dva/mobile';
-import { InputItem, WhiteSpace, List, ListView, Flex } from 'antd-mobile';
+import { Button, InputItem, WhiteSpace, List, ListView, Flex } from 'antd-mobile';
 
 class PrivateMessageScreen extends Component {
   componentWillMount() {
@@ -77,7 +79,7 @@ class PrivateMessageScreen extends Component {
   }
 
   render() {
-    const { listView } = styles;
+    const { listView, input, send } = styles;
     const { message, dispatch, conversationKey, from, to } = this.props;
 
     return (
@@ -87,19 +89,20 @@ class PrivateMessageScreen extends Component {
           dataSource={this.dataSource}
           renderRow={this.renderRow.bind(this)}
         />
-        <List>
+        <View style={{flexDirection: 'row'}}>
           <InputItem
             clear
             value={message}
             type="text"
+            style={input}
             onChange={(value) => dispatch({ type: 'Messages/messageText', payload: value })}
             placeholder="Send message here~!"
-            labelNumber={7}
-            error
-            onErrorPress={() => message ? dispatch({ type: 'Messages/addPrivateMessages', payload: { message, conversationKey, from, to } }) : null}
             >
           </InputItem>
-        </List>
+          <TouchableHighlight onPress={() =>  message ? dispatch({ type: 'Messages/addPrivateMessages', payload: { message, conversationKey, from, to } }) : null}>
+            <Image style={send} source={require('../assets/send.jpg')}></Image>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
@@ -108,6 +111,16 @@ class PrivateMessageScreen extends Component {
 const styles = {
   listView: {
      height: Dimensions.get('window').height - 66,
+  },
+  input: {
+    height: 40,
+    width: Dimensions.get('window').width - 60,
+  },
+  send: {
+    borderColor: '#fff',
+    height: 40,
+    width: 40,
+    resizeMode : 'contain',
   },
   messageMe: {
     marginRight: 8,
