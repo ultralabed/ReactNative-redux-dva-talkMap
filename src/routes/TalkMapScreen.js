@@ -64,7 +64,6 @@ class TalkMapScreen extends Component {
               null:
               <Button
                 style={{width: 50, left: 150}}
-                onClick={() => this.props.dispatch({ type: 'Messages/checkConversationMap', payload: { from: uid , to: data.key, email: data.email } })}
                 size="small"
                 type="primary">
                   Chat
@@ -81,10 +80,12 @@ class TalkMapScreen extends Component {
   render() {
     const { input, send } = styles;
     const { region, message, dispatch, allMessages, markers } = this.props;
+    const { email, uid } = this.props.user;
+
     return (
       <View>
         <MapView
-          style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height - 110}}
+          style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height - 107}}
           region={region}
           >
           { markers.map(data => {
@@ -97,6 +98,7 @@ class TalkMapScreen extends Component {
                 image={{ uri: imageUri}}
               >
                 <MapView.Callout
+                  onPress={email === data.email ? () => null : () => this.props.dispatch({ type: 'Messages/checkConversationMap', payload: { from: uid , to: data.key, email: data.email } })}
                   style={{width: 200}}>
                   {this.renderMarkerCallout(data)}
                 </MapView.Callout>
@@ -114,7 +116,9 @@ class TalkMapScreen extends Component {
             placeholder="Send message here~!"
             >
           </InputItem>
-          <TouchableHighlight onPress={() => message ? dispatch({ type: 'Messages/addPublicMessages', payload: message }) : null}>
+          <TouchableHighlight
+            underlayColor='#fff'
+            onPress={() => message ? dispatch({ type: 'Messages/addPublicMessages', payload: message }) : null}>
             <Image style={send} source={require('../assets/send.jpg')}></Image>
           </TouchableHighlight>
         </View>

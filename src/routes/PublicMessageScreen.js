@@ -85,7 +85,9 @@ class PublicMessageScreen extends Component {
             placeholder="Send message here~!"
             >
           </InputItem>
-          <TouchableHighlight onPress={() => message ? dispatch({ type: 'Messages/addPublicMessages', payload: message }) : null}>
+          <TouchableHighlight
+            underlayColor='#fff'
+            onPress={() => message ? dispatch({ type: 'Messages/addPublicMessages', payload: message }) : null}>
             <Image style={send} source={require('../assets/send.jpg')}></Image>
           </TouchableHighlight>
         </View>

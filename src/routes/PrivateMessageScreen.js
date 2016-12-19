@@ -99,7 +99,9 @@ class PrivateMessageScreen extends Component {
             placeholder="Send message here~!"
             >
           </InputItem>
-          <TouchableHighlight onPress={() =>  message ? dispatch({ type: 'Messages/addPrivateMessages', payload: { message, conversationKey, from, to } }) : null}>
+          <TouchableHighlight
+            underlayColor='#fff'
+            onPress={() =>  message ? dispatch({ type: 'Messages/addPrivateMessages', payload: { message, conversationKey, from, to } }) : null}>
             <Image style={send} source={require('../assets/send.jpg')}></Image>
           </TouchableHighlight>
         </View>
