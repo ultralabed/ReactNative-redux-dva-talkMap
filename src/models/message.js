@@ -59,7 +59,7 @@ export default {
       yield put({ type: 'messageText', payload: '' });
     },
     *checkConversationMap({ payload }, { call, put, select }) {
-      const { from, to } = payload;
+      const { from, to, email } = payload;
       const { conversationMap } = yield select(state => state.Messages);
       let conversationMapArr = yield _.values(_.mapValues(conversationMap, function(value, key) { value.key = key; return value; }));
       let conversation = conversationMapArr.find((conversation) => {
@@ -68,13 +68,12 @@ export default {
                 :
                 null;
       });
-
       if (!conversation) {
         conversation = yield call(createConversationMap, { from, to });
       }
       yield put({ type: 'updateConversationFromTo', payload: { from, to } });
       yield put({ type: 'updateConversationKey', payload: conversation.key });
-      Actions.privateMessages();
+      Actions.privateMessages({ title: _.capitalize(email.split('@')[0]) });
     },
   },
   reducers: {
@@ -88,7 +87,6 @@ export default {
       return { ...state, conversationMap: payload };
     },
     updateConversationKey(state, { payload }) {
-
       return { ...state, conversationKey: payload };
     },
     updateConversations(state, { payload }) {

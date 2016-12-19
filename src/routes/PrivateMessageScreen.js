@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'dva/mobile';
-import { Button, WingBlank, InputItem, WhiteSpace, List, ListView, Flex } from 'antd-mobile';
+import { InputItem, WhiteSpace, List, ListView, Flex } from 'antd-mobile';
 
 class PrivateMessageScreen extends Component {
   componentWillMount() {

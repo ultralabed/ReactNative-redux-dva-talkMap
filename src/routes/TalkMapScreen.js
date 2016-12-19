@@ -8,12 +8,13 @@ import {
   Dimensions,
 } from 'react-native';
 import { connect } from 'dva/mobile';
-import { Button, WingBlank, InputItem, WhiteSpace, List } from 'antd-mobile';
+import { Button, InputItem, List } from 'antd-mobile';
 import { Actions } from 'react-native-router-flux';
+import Circle from '../components/Circle';
 
 class TalkMapScreen extends Component {
   state = {
-    region: { },
+    region: {},
   };
 
   watchID: ?number = null;
@@ -45,17 +46,23 @@ class TalkMapScreen extends Component {
         <View>
           <Text  style={{fontSize: 20, fontWeight: 'bold'}}>
             {
-              email === data.email ?
-              'Me'
+              data.status === 'online' ?
+              <Circle color="#00ff00"/>
               :
-              _.capitalize(data.email.split('@')[0])
+              <Circle color="#ff0000"/>
+            }
+            {
+              email === data.email ?
+              `Me`
+              :
+              `${_.capitalize(data.email.split('@')[0])}`
             }
             {
               email === data.email ?
               null:
               <Button
                 style={{width: 50, left: 150}}
-                onClick={() => this.props.dispatch({ type: 'Messages/checkConversationMap', payload: { from: uid , to: data.key } })}
+                onClick={() => this.props.dispatch({ type: 'Messages/checkConversationMap', payload: { from: uid , to: data.key, email: data.email } })}
                 size="small"
                 type="primary">
                   Chat
@@ -117,8 +124,8 @@ const mapStateToProps = ({ Location, Messages, auth }) => {
   const { user } = auth;
   const region = { latitude: Number(location.latitude),
                     longitude: Number(location.longitude),
-                    latitudeDelta: 0.04,
-                    longitudeDelta: 0.04,
+                    latitudeDelta: 0.03,
+                    longitudeDelta: 0.03,
                  };
   var markers = _.values(_.mapValues(talkMapUsers, function(value, key) { value.key = key; return value; }));
   const { message, allMessages } = Messages;

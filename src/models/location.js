@@ -12,6 +12,15 @@ export default {
     initFetchAllLocations({ dispatch }) {
       firebase.auth().onAuthStateChanged(function(currentUser) {
         if (currentUser) {
+          let amOnline = firebase.database().ref('/.info/connected');
+          let userRef = firebase.database().ref(`/talkMapUsers/${currentUser.uid}`)
+          amOnline.on('value', function(snapshot) {
+            if (snapshot.val()) {
+              // User is online.
+              userRef.onDisconnect().update({ status: 'offline'});
+              userRef.update({ status: 'online'});
+            }
+          });
           firebase.database().ref(`/talkMapUsers`)
             .on('value', (snapshot) => {
               const val = snapshot.val();

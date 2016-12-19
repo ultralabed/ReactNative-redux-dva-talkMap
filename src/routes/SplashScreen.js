@@ -19,7 +19,6 @@ class SplashScreen extends Component {
   }
 
   render() {
-    const imageUrl = 'https://cdn.pixabay.com/photo/2015/03/27/20/42/smartphone-695164__340.jpg';
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Text style={{ fontSize: 20, }}>React Native Talk Map</Text>

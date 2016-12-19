@@ -7,7 +7,7 @@ import {
   Image,
 } from 'react-native';
 import { connect } from 'dva/mobile';
-import { Button, WingBlank, InputItem, WhiteSpace, List, ListView, Flex, NoticeBar } from 'antd-mobile';
+import { InputItem, WhiteSpace, List, ListView, Flex } from 'antd-mobile';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 
 class PublicMessageScreen extends Component {

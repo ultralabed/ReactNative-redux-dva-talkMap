@@ -5,7 +5,7 @@ export function updateLocation({ latitude, longitude }) {
   const { currentUser } = firebase.auth();
   let timeNow = new moment().format('x');
   firebase.database().ref(`/talkMapUsers/${currentUser.uid}`)
-    .update({ latitude, longitude, latestLocation: timeNow , email: currentUser.email });
+    .update({ latitude, longitude, latestLocation: timeNow , email: currentUser.email, status: 'online' });
 }
 
 export function createMessage({ message }) {

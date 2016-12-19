@@ -10,6 +10,7 @@ import { connect } from 'dva/mobile';
 
 class RouterComponent extends Component {
   render() {
+    const { title } = this.props;
     return (
       <Router sceneStyle={{ paddingTop: 65 }}>
         <Scene key="screen">

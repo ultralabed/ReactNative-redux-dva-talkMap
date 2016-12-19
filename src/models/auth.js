@@ -52,6 +52,9 @@ export default {
       yield put({ type: 'loginLoading', payload: false });
     },
     *logoutUser({ paylaod }, { put }){
+      const { currentUser } = firebase.auth();
+      yield firebase.database().ref(`/talkMapUsers/${currentUser.uid}`)
+        .update({ status: 'offline' });
       yield firebase.auth().signOut();
       yield put({ type: 'logout' });
       yield Actions.auth({ type: 'reset' });
@@ -67,28 +70,22 @@ export default {
       return { ...state, error: 'Authentication Fail', password: '' };
     },
     loginLoading(state, { payload: loginLoading }) {
-
       return { ...state, loginLoading };
     },
     errorMsg(state, { payload: error }) {
-
       return { ...state, error  };
     },
     userEmail(state, { payload: email }) {
-
       return { ...state, email };
 
     },
     userPassword(state, { payload: password }) {
-
       return { ...state, password };
     },
     logout(state) {
-
       return { ...state, email: '', password: '', error: '' };
     },
     autoLogin(state, { payload: autoLogin }) {
-
       return { ...state, autoLogin };
     }
   },
