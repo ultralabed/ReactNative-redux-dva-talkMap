@@ -41,7 +41,7 @@ class TalkMapScreen extends Component {
 
   renderMarkerCallout(data) {
     const { email, uid } = this.props.user;
-    const { send, callOutContentView } = styles;
+    const { avatar, callOutContentView } = styles;
     let time = data.latestMessage ? moment.unix(data.latestMessage / 1000).fromNow(true) : null;
     const imagekey = data.email.length + 7;
     const imageUri = `https://avatars3.githubusercontent.com/u/${imagekey}?v=3&s=50`;
@@ -50,7 +50,7 @@ class TalkMapScreen extends Component {
       <View>
         <View>
           <Text  style={{fontSize: 20, fontWeight: 'bold'}}>
-            <Image style={{...send, borderRadius: 20}} source={{uri: imageUri}}></Image>
+            <Image style={{...avatar, borderRadius: 20}} source={{uri: imageUri}}></Image>
             {
               email === data.email ?
               <View style={callOutContentView}>
@@ -150,6 +150,12 @@ const styles = {
     marginTop: 5,
     height: 30,
     width: 30,
+    resizeMode : 'contain',
+  },
+  avatar: {
+    borderColor: '#fff',
+    height: 40,
+    width: 40,
     resizeMode : 'contain',
   },
   callOutContentView: {

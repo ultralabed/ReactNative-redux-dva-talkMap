@@ -34,13 +34,18 @@ class PublicMessageScreen extends Component {
 
   renderRow(data) {
     const { user } = this.props;
-    const { messageMe, messageOther } = styles;
+    const { messageMe, messageOther, avatar } = styles;
+    const imagekey = imageKey = data.email.length + 7;
+    const imageUri = `https://avatars3.githubusercontent.com/u/${imagekey}?v=3&s=50`;
+    console.log('!!!!!!!!', data);
     return (
       data.email === user.email ?
       (
         <View>
-          <Flex justify="end" wrap="wrap">
-            <Text style={messageMe}>{data.message}</Text>
+          <Flex justify="end">
+            <View style={{flexDirection: 'row', marginLeft: 35}}>
+              <Text style={messageMe}>{data.message}</Text>
+            </View>
           </Flex>
           <WhiteSpace />
         </View>
@@ -49,7 +54,14 @@ class PublicMessageScreen extends Component {
       (
         <View>
           <Flex justify="start">
-            <Text style={messageOther}>{ _.capitalize(data.email.split('@')[0]) } : {data.message}</Text>
+            <TouchableHighlight
+              underlayColor='#fff'
+              onPress={() => this.props.dispatch({ type: 'Messages/checkConversationMap', payload: { from: user.uid , to: data.userId, email: data.email } })}>
+              <Image style={avatar} source={{uri: imageUri}}></Image>
+            </TouchableHighlight>
+            <View style={{flexDirection: 'row', width: Dimensions.get('window').width - 50}}>
+              <Text style={messageOther}>{data.message}</Text>
+            </View>
             <WhiteSpace />
           </Flex>
           <WhiteSpace />
@@ -110,6 +122,14 @@ const styles = {
     height: 30,
     width: 30,
     resizeMode : 'contain',
+  },
+  avatar: {
+    borderColor: '#fff',
+    marginTop: 5,
+    height: 40,
+    width: 40,
+    resizeMode : 'contain',
+    borderRadius: 20,
   },
   messageMe: {
     marginLeft: 8,

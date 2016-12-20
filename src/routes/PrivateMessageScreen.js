@@ -52,13 +52,18 @@ class PrivateMessageScreen extends Component {
 
   renderRow(data) {
     const { talkMapUsers, user, to } = this.props;
-    const { messageMe, messageOther } = styles;
+    const { messageMe, messageOther, avatar, messageTime } = styles;
+    const imagekey = imageKey = talkMapUsers[to].email.length + 7;
+    const imageUri = `https://avatars3.githubusercontent.com/u/${imagekey}?v=3&s=50`;
+
     return (
       data.from === user.uid ?
       (
         <View>
-          <Flex justify="end" wrap="wrap">
-            <Text style={messageMe}>{data.message}</Text>
+          <Flex justify="end">
+            <View>
+              <Text style={messageMe}>{data.message}</Text>
+            </View>
           </Flex>
           <WhiteSpace />
         </View>
@@ -67,10 +72,10 @@ class PrivateMessageScreen extends Component {
       (
         <View>
           <Flex justify="start">
-            <View>
-              <Text style={messageOther}>{ _.capitalize(talkMapUsers[to].email.split('@')[0]) } : {data.message}</Text>
+            <Image style={avatar} source={{uri: imageUri}}></Image>
+            <View style={{flexDirection: 'row', width: Dimensions.get('window').width - 50}}>
+              <Text style={messageOther}>{data.message}</Text>
             </View>
-            <WhiteSpace />
           </Flex>
           <WhiteSpace />
         </View>
@@ -124,6 +129,19 @@ const styles = {
     height: 30,
     width: 30,
     resizeMode : 'contain',
+  },
+  avatar: {
+    borderColor: '#fff',
+    marginTop: 5,
+    height: 40,
+    width: 40,
+    resizeMode : 'contain',
+    borderRadius: 20,
+  },
+  messageTime: {
+    fontSize: 14,
+    marginBottom: -10,
+    marginLeft: 0,
   },
   messageMe: {
     marginLeft: 8,
