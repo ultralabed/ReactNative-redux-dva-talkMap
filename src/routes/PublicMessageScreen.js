@@ -32,12 +32,17 @@ class PublicMessageScreen extends Component {
     this.dataSource = ds.cloneWithRows(allMessages);
   }
 
+  _scrollToBottom(ref) {
+    if (ref) {
+      ref.scrollTo({y: ref.scrollProperties.contentLength - ref.scrollProperties.visibleLength + 30})
+    }
+  }
+
   renderRow(data) {
     const { user } = this.props;
     const { messageMe, messageOther, avatar } = styles;
     const imagekey = imageKey = data.email.length + 7;
     const imageUri = `https://avatars3.githubusercontent.com/u/${imagekey}?v=3&s=50`;
-    console.log('!!!!!!!!', data);
     return (
       data.email === user.email ?
       (
@@ -81,7 +86,8 @@ class PublicMessageScreen extends Component {
     const { message, dispatch } = this.props;
     return (
       <View style={listView}>
-        <ListView 
+        <ListView
+          ref={ref => this._scrollToBottom(ref)}
           renderScrollComponent={this.renderInvertibleScrollView}
           enableEmptySections
           dataSource={this.dataSource}

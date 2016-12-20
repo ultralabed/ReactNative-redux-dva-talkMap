@@ -49,6 +49,12 @@ class PrivateMessageScreen extends Component {
     dispatch({ type: 'Messages/updateConversationFromTo', payload: { from: '', to: '' } });
   }
 
+  _scrollToBottom(ref) {
+    if (ref) {
+      ref.scrollTo({y: ref.scrollProperties.contentLength - ref.scrollProperties.visibleLength + 30})
+    }
+  }
+
 
   renderRow(data) {
     const { talkMapUsers, user, to } = this.props;
@@ -90,6 +96,7 @@ class PrivateMessageScreen extends Component {
     return (
       <View style={listView}>
         <ListView
+          ref={ref => this._scrollToBottom(ref)}
           enableEmptySections
           dataSource={this.dataSource}
           renderRow={this.renderRow.bind(this)}
