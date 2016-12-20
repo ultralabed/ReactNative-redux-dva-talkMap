@@ -82,7 +82,7 @@ class PublicMessageScreen extends Component {
             type="text"
             style={input}
             onChange={(value) => dispatch({ type: 'Messages/messageText', payload: value })}
-            placeholder="Send message here~!"
+            placeholder="Enter message..."
             >
           </InputItem>
           <TouchableHighlight
@@ -106,33 +106,40 @@ const styles = {
   },
   send: {
     borderColor: '#fff',
-    height: 40,
-    width: 40,
+    marginTop: 5,
+    height: 30,
+    width: 30,
     resizeMode : 'contain',
   },
   messageMe: {
     marginLeft: 8,
     marginRight: 8,
-    paddingLeft: 5,
-    paddingRight: 5,
+    paddingTop: 4,
+    paddingBottom: 4,
+    paddingLeft: 10,
+    paddingRight: 7,
     borderWidth : 2,
-    borderRadius: 10,
+    borderRadius: 15,
     overflow: 'hidden',
     borderColor: '#4080ff',
+    color: '#fff',
     backgroundColor: '#4080ff',
-    fontSize: 20,
+    fontSize: 16,
   },
   messageOther: {
     marginLeft: 8,
     marginRight: 8,
-    paddingLeft: 5,
-    paddingRight: 5,
-    borderRadius: 10,
+    paddingTop: 4,
+    paddingBottom: 4,
+    paddingLeft: 10,
+    paddingRight: 7,
+    borderRadius: 15,
     borderWidth : 2,
     overflow: 'hidden',
     borderColor: '#f1f0f0',
+    color: '#000',
     backgroundColor: '#f1f0f0',
-    fontSize: 20,
+    fontSize: 16,
   },
 }
 

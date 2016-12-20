@@ -10,7 +10,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import { connect } from 'dva/mobile';
-import { Button, InputItem, List } from 'antd-mobile';
+import { Button, InputItem, List, Flex } from 'antd-mobile';
 import { Actions } from 'react-native-router-flux';
 import Circle from '../components/Circle';
 
@@ -41,38 +41,45 @@ class TalkMapScreen extends Component {
 
   renderMarkerCallout(data) {
     const { email, uid } = this.props.user;
-    let time = data.latestMessage ? moment.unix(data.latestMessage / 1000).fromNow() : null;
+    const { send, callOutContentView } = styles;
+    let time = data.latestMessage ? moment.unix(data.latestMessage / 1000).fromNow(true) : null;
+    const imagekey = data.email.length + 7;
+    const imageUri = `https://avatars3.githubusercontent.com/u/${imagekey}?v=3&s=50`;
 
     return (
-      <View style={{flex: 1}}>
+      <View>
         <View>
           <Text  style={{fontSize: 20, fontWeight: 'bold'}}>
-            {
-              data.status === 'online' ?
-              <Circle color="#00ff00"/>
-              :
-              <Circle color="#ff0000"/>
-            }
+            <Image style={{...send, borderRadius: 20}} source={{uri: imageUri}}></Image>
             {
               email === data.email ?
-              `Me`
+              <View style={callOutContentView}>
+                <Flex justify="end">
+                  <Circle color="#00ff00" size="10"/>
+                </Flex>
+                <Text>
+                 Me:
+                </Text>
+                <Text numberOfLines={1}>{data.message}</Text>
+              </View>
               :
-              `${_.capitalize(data.email.split('@')[0])}`
-            }
-            {
-              email === data.email ?
-              null:
-              <Button
-                style={{width: 50, left: 150}}
-                size="small"
-                type="primary">
-                  Chat
-              </Button>
+              <View style={callOutContentView}>
+                <Flex justify="end">
+                  {
+                    data.status === 'online' ?
+                    <Circle color="#00ff00" size="10"/>
+                    :
+                    <Text style={{fontSize: 12}}>{time}</Text>
+                  }
+                </Flex>
+                <Text>
+                 {_.capitalize(data.email.split('@')[0])}:
+                </Text>
+                <Text numberOfLines={1}>{data.message}</Text>
+              </View>
             }
           </Text>
         </View>
-        <Text>{data.message}</Text>
-        <Text style={{left: 90}}>{time}</Text>
       </View>
     )
   }
@@ -101,10 +108,11 @@ class TalkMapScreen extends Component {
                 key={data.key}
                 coordinate={{ latitude: data.latitude, longitude: data.longitude }}
                 image={{ uri: imageUri}}
+                style={{borderRadius:20}}
               >
                 <MapView.Callout
                   onPress={email === data.email ? () => null : () => this.props.dispatch({ type: 'Messages/checkConversationMap', payload: { from: uid , to: data.key, email: data.email } })}
-                  style={{width: 200}}>
+                  style={{ width: 200, height:50 }}>
                   {this.renderMarkerCallout(data)}
                 </MapView.Callout>
               </MapView.Marker>
@@ -139,9 +147,16 @@ const styles = {
   },
   send: {
     borderColor: '#fff',
-    height: 40,
-    width: 40,
+    marginTop: 5,
+    height: 30,
+    width: 30,
     resizeMode : 'contain',
+  },
+  callOutContentView: {
+    flexDirection: 'column',
+    width: 150,
+    height: 45,
+    left: 50,
   },
 }
 

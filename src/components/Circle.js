@@ -7,7 +7,7 @@ import { WingBlank } from 'antd-mobile';
 class Circle extends Component {
   render() {
     const color = this.props.color || '#000000';
-    const size = 20;
+    const size = Number(this.props.size) || 20;
 
     return (
       <View
