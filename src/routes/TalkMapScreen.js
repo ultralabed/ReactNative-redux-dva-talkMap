@@ -85,7 +85,7 @@ class TalkMapScreen extends Component {
   }
 
   render() {
-    const { input, send } = styles;
+    const { input, send, markerAvatar } = styles;
     const { region, message, dispatch, allMessages, markers } = this.props;
     const { email, uid } = this.props.user;
 
@@ -103,13 +103,13 @@ class TalkMapScreen extends Component {
           { markers.map(data => {
             const imagekey = data.email.length + 7;
             const imageUri = `https://avatars3.githubusercontent.com/u/${imagekey}?v=3&s=50`
+            const userStateColor = data.status === 'online' ? '#5cb85c' : '#f0ad4e';
             return (
               <MapView.Marker
                 key={data.key}
                 coordinate={{ latitude: data.latitude, longitude: data.longitude }}
-                image={{ uri: imageUri}}
-                style={{borderRadius:20}}
               >
+              <Image style={{...markerAvatar, borderColor: userStateColor, borderWidth: 2}} source={{uri: imageUri}}></Image>
                 <MapView.Callout
                   onPress={email === data.email ? () => null : () => this.props.dispatch({ type: 'Messages/checkConversationMap', payload: { from: uid , to: data.key, email: data.email } })}
                   style={{ width: 200, height:50 }}>
@@ -163,6 +163,14 @@ const styles = {
     width: 150,
     height: 45,
     left: 50,
+  },
+  markerAvatar: {
+    borderColor: '#fff',
+    marginTop: 5,
+    height: 30,
+    width: 30,
+    resizeMode : 'contain',
+    borderRadius: 15,
   },
 }
 

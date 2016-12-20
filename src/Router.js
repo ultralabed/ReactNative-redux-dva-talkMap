@@ -28,14 +28,22 @@ class RouterComponent extends Component {
             leftTitle="Logout"
             onRight={() => Actions.publicMessages()}
             rightTitle="Chat all"
+            leftButtonTextStyle={{color: '#000'}}
+            rightButtonTextStyle={{color: '#000'}}
             initial/>
           <Scene
             key="publicMessages"
             component={PublicMessageScreen}
-            title="Public Chat"/>
+            title="Public Chat"
+            leftButtonIconStyle={{tintColor: '#fff'}}
+            titleStyle={{color: '#fff'}}
+            navigationBarStyle={{backgroundColor: '#4080ff'}}/>
           <Scene
             key="privateMessages"
             component={PrivateMessageScreen}
+            leftButtonIconStyle={{tintColor: '#fff'}}
+            titleStyle={{color: '#fff'}}
+            navigationBarStyle={{backgroundColor: '#4080ff'}}
             title="Private Chat"/>
         </Scene>
       </Router>
