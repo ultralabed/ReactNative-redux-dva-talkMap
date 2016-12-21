@@ -21,7 +21,7 @@ class SplashScreen extends Component {
   render() {
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text style={{ fontSize: 20, }}>React Native Talk Map</Text>
+        <Text style={{ fontSize: 20 }}>React Native Talk Map</Text>
         <Image style={{ width: 250, resizeMode : 'contain'}} source={require('../assets/map.jpg')}></Image>
       </View>
     );

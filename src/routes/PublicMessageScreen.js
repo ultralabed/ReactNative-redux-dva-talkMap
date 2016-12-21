@@ -100,7 +100,7 @@ class PublicMessageScreen extends Component {
             type="text"
             style={input}
             onChange={(value) => dispatch({ type: 'Messages/messageText', payload: value })}
-            placeholder="Enter message..."
+            placeholder="Enter messages..."
             >
           </InputItem>
           <TouchableHighlight

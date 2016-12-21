@@ -126,7 +126,7 @@ class TalkMapScreen extends Component {
             type="text"
             style={input}
             onChange={(value) => dispatch({ type: 'Messages/messageText', payload: value })}
-            placeholder="Send message here~!"
+            placeholder="Enter messages..."
             >
           </InputItem>
           <TouchableHighlight
