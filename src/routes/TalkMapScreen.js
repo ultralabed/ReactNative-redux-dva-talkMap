@@ -27,7 +27,7 @@ class TalkMapScreen extends Component {
         this.props.dispatch({ type: 'Location/updateUserLocation', payload: { latitude, longitude } });
       },
       (error) => alert(JSON.stringify(error)),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 20}
     );
     this.watchID = navigator.geolocation.watchPosition((position) => {
       const { latitude, longitude } = position.coords;
@@ -42,7 +42,7 @@ class TalkMapScreen extends Component {
   renderMarkerCallout(data) {
     const { email, uid } = this.props.user;
     const { avatar, callOutContentView } = styles;
-    let time = data.latestMessage ? moment.unix(data.latestMessage / 1000).fromNow(true) : null;
+    let time = data.latestLocation ? moment.unix(data.latestLocation / 1000).fromNow() : null;
     const imagekey = data.email.length + 7;
     const imageUri = `https://avatars3.githubusercontent.com/u/${imagekey}?v=3&s=50`;
 
@@ -55,7 +55,8 @@ class TalkMapScreen extends Component {
               email === data.email ?
               <View style={callOutContentView}>
                 <Flex justify="end">
-                  <Circle color="#00ff00" size="10"/>
+                  <Circle size='12' color='#00ff00'/>
+                  <Text> Online</Text>
                 </Flex>
                 <Text>
                  Me:
@@ -67,9 +68,12 @@ class TalkMapScreen extends Component {
                 <Flex justify="end">
                   {
                     data.status === 'online' ?
-                    <Circle color="#00ff00" size="10"/>
+                    <Flex>
+                      <Circle size='12' color='#00ff00'/>
+                      <Text> Online</Text>
+                    </Flex>
                     :
-                    <Text style={{fontSize: 12}}>{time}</Text>
+                    <Text style={{fontSize: 12}}>Active: {time}</Text>
                   }
                 </Flex>
                 <Text>

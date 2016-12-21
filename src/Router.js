@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Platform } from 'react-native';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 import SplashScreen from './routes/SplashScreen';
@@ -11,8 +12,9 @@ import { connect } from 'dva/mobile';
 class RouterComponent extends Component {
   render() {
     const { title } = this.props;
+    const  navBarHeight = Number(Platform.OS === 'ios' ? '64': '44');
     return (
-      <Router sceneStyle={{ paddingTop: 65 }}>
+      <Router sceneStyle={{ paddingTop: navBarHeight }}>
         <Scene key="screen">
           <Scene key="splash" component={SplashScreen} hideNavBar={true} initial/>
         </Scene>

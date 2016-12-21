@@ -46,8 +46,8 @@ export default {
           yield put({ type: 'loginFail' });
         }
       } else {
-        yield Actions.main({ type: 'reset' });
         yield put({ type: 'loginSuccess', payload: user });
+        yield Actions.main({ type: 'reset' });
       }
       yield put({ type: 'loginLoading', payload: false });
     },
